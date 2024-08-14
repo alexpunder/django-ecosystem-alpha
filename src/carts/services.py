@@ -6,11 +6,11 @@ from .models import Cart, CartItem, Product
 
 class CartService:
 
-    @classmethod
+    @staticmethod
     def get_user_cart(user: User):
         return get_object_or_404(Cart, user=user)
 
-    @classmethod
+    @staticmethod
     def add_to_user_cart(
         user: User, product: Product, quantity: int = 1,
     ):
@@ -31,7 +31,7 @@ class CartService:
 
         return True
 
-    @classmethod
+    @staticmethod
     def delete_user_cart_item(
         user: User, pk: int,
     ):

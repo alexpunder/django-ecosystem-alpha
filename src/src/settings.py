@@ -28,7 +28,6 @@ INSTALLED_APPS = [
     # utils
     'rest_framework',
     'rest_framework_simplejwt',
-    'djoser',
 
     # apps
     'carts.apps.CartsConfig',
@@ -95,18 +94,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        # 'rest_framework.permissions.AllowAny',
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
     ],
 
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-}
-
-
-SIMPLE_JWT = {
-   'AUTH_HEADER_TYPES': ('JWT',),
 }
 
 
