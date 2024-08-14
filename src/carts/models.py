@@ -20,6 +20,23 @@ class Cart(models.Model):
         verbose_name = 'Корзина клиента'
         verbose_name_plural = 'Корзины клиентов'
 
+    def get_cart_items(self):
+        return self.cartitem_set.prefetch_related('product').all()
+
+    def clear_cart(self):
+        return self.get_cart_items().delete()
+
+    @property
+    def total_price(self):
+        cart_items = self.get_cart_items()
+        return sum(
+            cart_item.total_price for cart_item in cart_items
+        )
+
+    @property
+    def count(self):
+        return self.get_cart_items().count()
+
     def __str__(self):
         return f'Корзина пользователя: {self.user.username}'
 
@@ -43,3 +60,7 @@ class CartItem(models.Model):
     class Meta:
         verbose_name = 'Товар в корзине'
         verbose_name_plural = 'Товары в корзине'
+
+    @property
+    def total_price(self):
+        return self.quantity * self.product.price
