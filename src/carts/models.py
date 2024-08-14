@@ -30,7 +30,7 @@ class Cart(models.Model):
     def total_price(self):
         cart_items = self.get_cart_items()
         return sum(
-            cart_item.total_price for cart_item in cart_items
+            cart_item.item_total_price for cart_item in cart_items
         )
 
     @property
@@ -62,5 +62,5 @@ class CartItem(models.Model):
         verbose_name_plural = 'Товары в корзине'
 
     @property
-    def total_price(self):
+    def item_total_price(self):
         return self.quantity * self.product.price
