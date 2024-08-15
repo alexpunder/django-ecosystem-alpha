@@ -3,19 +3,15 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 
-from .models import Cart
 from .services import CartService
 from .serializers import CartSerializer
 
 
-class CartViewSet(viewsets.ModelViewSet):
-    queryset = Cart.objects.all()
-    serializer_class = CartSerializer
+class CartViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
 
     @action(
         detail=False, methods=['get'],
-        permission_classes=[IsAuthenticated],
     )
     def get_user_cart(self, request):
         user_cart = CartService.get_user_cart(request.user)
@@ -26,7 +22,6 @@ class CartViewSet(viewsets.ModelViewSet):
 
     @action(
         detail=False, methods=['post'],
-        permission_classes=[IsAuthenticated],
         url_path=r'add_to_user_cart/(?P<product_id>\d+)',
     )
     def add_to_user_cart(self, request, product_id=None):
@@ -40,7 +35,6 @@ class CartViewSet(viewsets.ModelViewSet):
 
     @action(
         detail=False, methods=['post'],
-        permission_classes=[IsAuthenticated],
         url_path=r'delete_item_from_user_cart/(?P<product_id>\d+)',
     )
     def delete_item_from_user_cart(self, request, product_id=None):
@@ -52,7 +46,6 @@ class CartViewSet(viewsets.ModelViewSet):
 
     @action(
         detail=False, methods=['post'],
-        permission_classes=[IsAuthenticated],
     )
     def clear_user_cart(self, request):
         user_cart = CartService.get_user_cart(request.user)

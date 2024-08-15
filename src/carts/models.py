@@ -17,6 +17,7 @@ class Cart(models.Model):
     )
 
     class Meta:
+        ordering = ['-id']
         verbose_name = 'Корзина клиента'
         verbose_name_plural = 'Корзины клиентов'
 
@@ -58,6 +59,7 @@ class CartItem(models.Model):
     )
 
     class Meta:
+        ordering = ['-id']
         verbose_name = 'Товар в корзине'
         verbose_name_plural = 'Товары в корзине'
 

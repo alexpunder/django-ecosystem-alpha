@@ -8,14 +8,17 @@ class CartService:
 
     @staticmethod
     def get_user_cart(user: User):
-        return get_object_or_404(Cart, user=user)
+        cart, _ = Cart.objects.get_or_create(
+            user=user,
+        )
+        return cart
 
     @staticmethod
     def add_to_user_cart(
         user: User, product_id: int, quantity: int = 1,
     ):
-        cart, _ = Cart.objects.get_or_create(
-            user=user,
+        cart = get_object_or_404(
+            Cart, user=user,
         )
         product = get_object_or_404(
             Product, id=product_id

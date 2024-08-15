@@ -42,7 +42,7 @@ class Product(Base):
     )
 
     class Meta:
-        ordering = ('-price',)
+        ordering = ['-price']
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
 
@@ -63,6 +63,7 @@ class ProductImage(models.Model):
     )
 
     class Meta:
+        ordering = ['-id']
         verbose_name = 'Изображение товара'
         verbose_name_plural = 'Изображения товаров'
 
@@ -79,6 +80,7 @@ class Category(Base):
     )
 
     class Meta:
+        ordering = ['-id']
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
 
@@ -102,6 +104,7 @@ class Subcategory(Base):
     )
 
     class Meta:
+        ordering = ['-id']
         verbose_name = 'Подкатегория'
         verbose_name_plural = 'Подкатегории'
 
