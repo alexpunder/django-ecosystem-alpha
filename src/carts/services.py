@@ -12,10 +12,13 @@ class CartService:
 
     @staticmethod
     def add_to_user_cart(
-        user: User, product: Product, quantity: int = 1,
+        user: User, product_id: int, quantity: int = 1,
     ):
         cart, _ = Cart.objects.get_or_create(
             user=user,
+        )
+        product = get_object_or_404(
+            Product, id=product_id
         )
         cart_product, created = CartItem.objects.get_or_create(
             cart=cart, product=product
@@ -33,10 +36,10 @@ class CartService:
 
     @staticmethod
     def delete_user_cart_item(
-        user: User, pk: int,
+        user: User, product_id: int,
     ):
         cart_item = CartItem.objects.get(
                 cart=get_object_or_404(Cart, user=user),
-                product=get_object_or_404(Product, pk=pk)
+                product=get_object_or_404(Product, id=product_id)
             )
         cart_item.delete()
