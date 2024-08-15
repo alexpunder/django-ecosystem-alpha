@@ -25,7 +25,9 @@ class CartViewSet(viewsets.ViewSet):
         url_path=r'add_to_user_cart/(?P<product_id>\d+)',
     )
     def add_to_user_cart(self, request, product_id=None):
-        quantity = request.data.get('quantity', 1)
+        quantity = 1
+        if request.data:
+            quantity = request.data.get('quantity', 1)
         CartService.add_to_user_cart(
             user=request.user,
             product_id=product_id,

@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 
 from .models import Cart, CartItem, Product
+from .validations import check_correct_qty
 
 
 class CartService:
@@ -15,7 +16,7 @@ class CartService:
 
     @staticmethod
     def add_to_user_cart(
-        user: User, product_id: int, quantity: int = 1,
+        user: User, product_id: int, quantity: int,
     ):
         cart, _ = Cart.objects.get_or_create(
             user=user,
@@ -23,17 +24,16 @@ class CartService:
         product = get_object_or_404(
             Product, id=product_id
         )
-        cart_product, created = CartItem.objects.get_or_create(
+        cart_item, created = CartItem.objects.get_or_create(
             cart=cart, product=product
         )
 
-        if not created:
-            updated_quantity = cart_product.quantity + quantity
-            cart_product.quantity = updated_quantity
-            cart_product.save()
-        else:
-            cart_product.quantity = quantity
-            cart_product.save()
+        updated_quantity = check_correct_qty(
+            cart_item=cart_item, created=created, quantity=quantity,
+        )
+
+        cart_item.quantity = updated_quantity
+        cart_item.save()
 
         return True
 
