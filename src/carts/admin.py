@@ -11,3 +11,9 @@ class CartItemInLine(admin.TabularInline):
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
     inlines = (CartItemInLine,)
+    list_display = (
+        'id', 'user',
+    )
+    search_fields = (
+        'user__username',
+    )

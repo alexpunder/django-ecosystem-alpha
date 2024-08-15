@@ -42,7 +42,7 @@ class Product(Base):
     )
 
     class Meta:
-        ordering = ['-price']
+        ordering = ['-id']
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
 
