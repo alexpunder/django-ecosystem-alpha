@@ -2,17 +2,19 @@ import os
 from pathlib import Path
 
 from dotenv import load_dotenv
+from django.core.management.utils import get_random_secret_key
+
+from .constants import MAX_PAGE_SIZE
 
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY', get_random_secret_key())
 
 DEBUG = os.getenv('DEBUG') == 'True'
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1').split(',')
 
 INTERNAL_IPS = ['127.0.0.1']
 
@@ -27,7 +29,7 @@ INSTALLED_APPS = [
 
     # utils
     'rest_framework',
-    'rest_framework.authtoken',
+    'rest_framework_simplejwt',
     'djoser',
 
     # apps
@@ -97,15 +99,13 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ],
-
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-}
-
-
-SIMPLE_JWT = {
-   'AUTH_HEADER_TYPES': ('JWT',),
+    'DEFAULT_PAGINATION_CLASS': (
+        'rest_framework.pagination.PageNumberPagination'
+    ),
+    'PAGE_SIZE': MAX_PAGE_SIZE,
 }
 
 
