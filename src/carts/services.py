@@ -17,8 +17,8 @@ class CartService:
     def add_to_user_cart(
         user: User, product_id: int, quantity: int = 1,
     ):
-        cart = get_object_or_404(
-            Cart, user=user,
+        cart, _ = Cart.objects.get_or_create(
+            user=user,
         )
         product = get_object_or_404(
             Product, id=product_id
