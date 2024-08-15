@@ -6,6 +6,10 @@ from .models import Cart, CartItem
 
 
 class CartItemSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор модели CartItem. Дополнительно имеет поле получения
+    итоговой стоимости товара от его количества.
+    """
     product = CartProductSerializer(read_only=True)
     item_total_price = serializers.SerializerMethodField()
 
@@ -14,10 +18,17 @@ class CartItemSerializer(serializers.ModelSerializer):
         fields = ('product', 'quantity', 'item_total_price',)
 
     def get_item_total_price(self, obj):
+        """Получение итоговой стоимости товара от его количества."""
         return obj.item_total_price
 
 
 class CartSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор модели Cart. Имеет дополнительные поля:
+
+    cart_items_total_price: получение итоговой стоимости всех товаров корзины
+    cart_items_count: получение итогового количества всех единиц товара корзины
+    """
     user = UserSerializer(read_only=True)
     products = CartItemSerializer(
         source='cartitem_set',
@@ -35,7 +46,9 @@ class CartSerializer(serializers.ModelSerializer):
         )
 
     def get_cart_items_total_price(self, obj):
+        """Получение итоговой стоимости всех товара корзины."""
         return obj.total_price
 
     def get_cart_items_count(self, obj):
+        """Получение итогового количества всех товаров корзины."""
         return obj.count

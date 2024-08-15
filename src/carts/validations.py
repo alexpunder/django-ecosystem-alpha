@@ -3,6 +3,7 @@ from rest_framework.exceptions import ValidationError
 
 
 def check_correct_qty(cart_item, quantity, created=False):
+    """Проверка добавляемого/удаляемого количества товара в корзину."""
     if not created:
         check_qty = cart_item.quantity + quantity
         if check_qty < 1:

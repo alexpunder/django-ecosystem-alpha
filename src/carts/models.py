@@ -5,6 +5,12 @@ from users.models import User
 
 
 class Cart(models.Model):
+    """
+    Модель корзины пользователя. Связи таблицы:
+
+    user: ForeignKey с моделью User
+    products: ManyToMany c таблицей CartItem
+    """
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -43,6 +49,12 @@ class Cart(models.Model):
 
 
 class CartItem(models.Model):
+    """
+    Модель товаров в корзине пользователя. Связи таблицы:
+
+    cart: ForeignKey с таблицей Cart
+    product: ForeignKey с таблицей Product
+    """
     cart = models.ForeignKey(
         'Cart',
         on_delete=models.CASCADE,
@@ -63,6 +75,10 @@ class CartItem(models.Model):
         verbose_name = 'Товар в корзине'
         verbose_name_plural = 'Товары в корзине'
 
+    def __str__(self):
+        return f'Товар: {self.product} в количестве {self.quantity}'
+
     @property
     def item_total_price(self):
+        """Получение итоговой стоимости товара от его количества."""
         return self.quantity * self.product.price
