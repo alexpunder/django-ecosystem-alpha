@@ -19,7 +19,7 @@ def check_correct_qty(cart_item, quantity, created=False):
         raise ValidationError(
             detail=(
                 'Значение товара в корзине не может быть меньше единицы. '
-                'Добавлен одна единица товара.'
+                'Добавлена одна единица товара.'
             ),
             code=status.HTTP_400_BAD_REQUEST,
         )
