@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from django.utils.translation import gettext_lazy as _
 
 
 class Base(models.Model):
@@ -51,6 +52,12 @@ class Product(Base):
 
 
 class ProductImage(models.Model):
+
+    class ImageChoices(models.TextChoices):
+        LARGE = 'LARGE', _('Большое')
+        MEDIUM = 'MEDIUM', _('Среднее')
+        SMALL = 'SMALL', _('Маленькое')
+
     product = models.ForeignKey(
         'Product',
         on_delete=models.CASCADE,
@@ -60,6 +67,12 @@ class ProductImage(models.Model):
     image = models.ImageField(
         'Изображение товара',
         upload_to='product_images',
+    )
+    size = models.CharField(
+        'Размер изображения',
+        max_length=255,
+        choices=ImageChoices.choices,
+        default=ImageChoices.LARGE,
     )
 
     class Meta:
