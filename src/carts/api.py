@@ -5,7 +5,7 @@ from rest_framework.decorators import action
 
 from .models import Cart
 from .services import CartService
-from .serializers import CartSerializer, CartItemSerializer
+from .serializers import CartSerializer
 
 
 class CartViewSet(viewsets.ModelViewSet):
@@ -19,9 +19,8 @@ class CartViewSet(viewsets.ModelViewSet):
     )
     def get_user_cart(self, request):
         user_cart = CartService.get_user_cart(request.user)
-        products = user_cart.get_cart_items()
-        serializer = CartItemSerializer(
-            products, many=True, context={'request': request},
+        serializer = CartSerializer(
+            user_cart, context={'request': request},
         )
         return Response(serializer.data, status=status.HTTP_200_OK)
 

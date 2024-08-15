@@ -39,7 +39,7 @@ class CartService:
         user: User, product_id: int,
     ):
         cart_item = CartItem.objects.get(
-                cart=get_object_or_404(Cart, user=user),
-                product=get_object_or_404(Product, id=product_id)
-            )
+            cart=get_object_or_404(Cart, user=user),
+            product=get_object_or_404(Product, id=product_id)
+        )
         cart_item.delete()
