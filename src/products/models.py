@@ -2,15 +2,20 @@ from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 
+from src.constants import (
+    NAME_MAX_LENGTH, SLUG_MAX_LENGTH, MAX_DECIMAL_PLACES_PRICE,
+    MAX_DIGITS_PRICE, IMAGE_SIZE_MAX_LENGTH,
+)
+
 
 class Base(models.Model):
     name = models.CharField(
         'Название',
-        max_length=255,
+        max_length=NAME_MAX_LENGTH,
     )
     slug = models.SlugField(
         'Слаг',
-        max_length=255,
+        max_length=SLUG_MAX_LENGTH,
         unique=True,
     )
 
@@ -26,8 +31,8 @@ class Base(models.Model):
 class Product(Base):
     price = models.DecimalField(
         'Цена товара',
-        max_digits=10,
-        decimal_places=2,
+        max_digits=MAX_DIGITS_PRICE,
+        decimal_places=MAX_DECIMAL_PLACES_PRICE,
     )
     category = models.ForeignKey(
         'Category',
@@ -70,7 +75,7 @@ class ProductImage(models.Model):
     )
     size = models.CharField(
         'Размер изображения',
-        max_length=255,
+        max_length=IMAGE_SIZE_MAX_LENGTH,
         choices=ImageChoices.choices,
         default=ImageChoices.LARGE,
     )
