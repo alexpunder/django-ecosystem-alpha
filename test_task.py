@@ -5,18 +5,21 @@
 """
 
 
-def solution(num: str):
-    if not num or (n := int(num)) == 0:
+def solution(string: str):
+    cleaned_data = ''.join([
+        i for i in string if i.isdigit()
+    ])
+
+    if not cleaned_data or (n := int(cleaned_data)) == 0:
         return None
 
-    nums = []
+    result = []
     for i in range(1, n + 1):
-        nums.append(str(i) * i)
+        result.append(str(i) * i)
 
-    return ''.join(nums)
+    return ''.join(result)
 
 
 if __name__ == '__main__':
-    num = input().replace(' ', '')
-    print(__doc__)
-    print(solution(num))
+    some_string = input()
+    print(solution(some_string))
